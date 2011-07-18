@@ -6,6 +6,7 @@
 - if child has 2 parents, the one with > subscribers is the parent
 -
 '''
+import copy
 
 class TreeNode:
     def __init__(self, property_dict):
@@ -14,7 +15,18 @@ class TreeNode:
         self.suggested_children = property_dict["subreddits"]
         self.parent = None
         self.children = []         
-        
+    
+    def __str__(self):
+        if self.parent is not None:
+            parent = self.parent.name
+        else:
+            parent = self.parent
+            parent = "None"
+        true_children = ""
+        for child in self.children:
+            true_children += "%s : " % child.name
+        return "Current Node: %s \n Parent Node: %s \n Subscriber Count: %d \n Array of Suggested_ Children: %s \n True Children: %s " % (self.name, parent, self.subscribers, self.suggested_children, true_children)
+    
 #large for loop to traverse array and ask what sugg children are and then add child#
     def remove_child (self, child_node):
         self.children.remove(child_node)
@@ -46,43 +58,62 @@ class TreeNode:
         nodes = {}
         node = self.parent
             
-        while self.name not in nodes:
-            print self.name
-            print "--------------------"
-            nodes[node.name] = node.subscribers
-            node = node.parent
-        print nodes
+        while self.subscribers not in nodes:
+            #print "goes into sub"
+            #print self.name
+            #print "--------------------"
+            nodes[node.subscribers] = node
+            node = node.parent            
+        #print "exits the while  "
+        temp = []
+        returned_array = sorted(nodes)
+        link = nodes[returned_array[0]]
+        for child in link.children:
+            for k,node in nodes.items():
+                if child == node:
+                    link.remove_child(node)
+        
+        #print link
+        '''
+        for e in returned_array:
+            temp.append(e)
+        for item in temp:
+            for e in returned_array:
+                if item == e:        
+                     print "items %d are %d equal" % (item, e)
+                     
+                      #get the key from the value and base it off of the   
+        '''                
+                #for k,v in dict_names.items():
+    #v.testing_1(dict_names)
 
-
-
-
-    '''        
-        if len(self.children) >= 0:
-            for child in self.suggested_children:
-                if node.parent == node.child.:
-                    #subs (self,parent_node)
-                    if node.parent.subscribers > node.child.children[0].subscribers:
-                        print children[0] + "was removed"
-                        node.child.remove_child(children[0])
-                    if node.parent.subscirbers > node.subscribers:
-                        print child + "was removed"
-                        node.parent.remove_child(child)    
-    '''
-
-# pare    
     def find_link (self, dict_names, parent_list):
         if self in parent_list:
-            print self.name
+            #print "if self is in parent_list %s" % self
             self.subs()
-            #print self.name #dep-resol
-            return
-        if self.parent is not None:    
+            #self.testing_1(dict_names)
+            
+        if self.parent is not None:
+            #print "if self parent is not none"
+            #if len(parent_list) == 0:
+                #print self.parent.name
             parent_list.append(self.parent)
-        for child_name in self.suggested_children:
-            #print child_name    
-            dict_names[child_name].find_link(dict_names, parent_list)
+            #        parent_list.append(self.parent)
+        for child in self.children:
+            #print child
+            child.find_link(dict_names, copy.copy(parent_list))
+            
+            #dict_names[child_name].find_link(dict_names, copy.copy(parent_list))
         
 
+    def testing_1(self, dict_names):
+        print self
+    
+    def sortDict (dict_names):
+        items = []
+        items = dict_names
+        
+            
     def return_json(self):
         json_children = []
         print self.name
@@ -95,11 +126,26 @@ class TreeNode:
                 "children" : json_children
         }
             
-            
             # write to file#
                 
-        
+    '''        
+        if len(self.children) >= 0:
+            for child in self.suggested_children:
+                if node.parent == node.child.:
+                    #subs (self,parent_node)
+                    if node.parent.subscribers > node.child.children[0].subscribers:
+                        print children[0] + "was removed"
+                        node.child.remove_child(children[0])
+                    if node.parent.subscirbers > node.subscribers:
+                        print child + "was removed"
+                        node.parent.remove_child(child)    
+
+            for item in parent_list:
+                if item.name != self.parent.name:
+                    print "item in parent list name: " + item.name
+                    print "self.parent: " + self.parent.name
+                    #print "item being added to parent_list   " + item.name
+
+
+    '''            
             
-            
-            
-    

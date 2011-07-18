@@ -2,44 +2,43 @@ import pickle
 import os
 import json
 from TreeNode import TreeNode
-'''     
+  
 input = open('popularRedditData.pkl', 'rb') # "rb" for read binary #
 file_data = pickle.load(input) # this will give you the array of subreddit dictionaries back #
 input.close()
 '''
 
-
 b = TreeNode({
     "catname" : "b",
     "subnum" : 10,
-    "subreddits" : ["c", "e"]
+    "subreddits" : ["c"]
 })
 
 d = TreeNode({
     "catname" : "d",
     "subnum" : 15,
-    "subreddits" : ["b"]
+    "subreddits" : ["e"]
 })
 
 e = TreeNode({
     "catname" : "e",
     "subnum" : 1,
-    "subreddits" : []
+    "subreddits" : ["a"]
 })
 
 c = TreeNode({
     "catname" : "c",
-    "subnum" : 5,
-    "subreddits" : ["d", "e"]
+    "subnum" : 5, #5
+    "subreddits" : ["d"]
 })
 
 a = TreeNode({
     "catname" : "a",
     "subnum" : 20,
-    "subreddits" : ["d", "b"]
+    "subreddits" : ["b"]
 })
-
-file_data = [a,b,c,d,e]
+'''
+#file_data = [a,b,c,d,e]
 
 reddit = TreeNode({
     "catname" : "Reddit",
@@ -49,15 +48,15 @@ reddit = TreeNode({
 
 nodes = []
 dict_names = {}
+#parent_list = []
+
 
 for item in file_data:
-   nodes.append((item))
+   nodes.append(TreeNode(item))
 
 for node in nodes:
     #print node.name#
     dict_names[node.name.lower()] = node
-
-list = []
 
 #is oarent> child or the other way around)#
 #add child to parents#    
@@ -66,21 +65,48 @@ for node in nodes:
     for childName in node.suggested_children:
         if childName in dict_names:
             child = dict_names[childName]
+            print "Child %s has been appended to the ditionary" % child.name
             if child != node:
                 if child.parent is not None and node.subscribers > child.parent.subscribers:
-                     #child.parent.remove_child(child)
+                     child.parent.remove_child(child)
                      node.add_child(child)
+                     print "Child %s has been added/removed" % child.name
                 if child.parent is None:
                      node.add_child(child)
+'''
+for node in nodes:
+    if node.parent is None:
+        reddit.add_child(node)
+'''
 
 for node in nodes:
-    node.find_link(dict_names, [])
+    if node.parent is None:
+        top_level = node
+        break
+    
+json_output = open('REDDITS.json', 'wb')
+a = "var viz_data = " + json.dumps(top_level.return_json()) + ";"
+json_output.write(a)
+json_output.close()
+
+
+    
+#for node in nodes:
+    #print "NODE NAME IS %s" % node.name
+    #node.find_link(dict_names, [])
+    
+#
+#for k,v in dict_names.items():
+   # v.testing_1(dict_names)
+
+
+
+
 print "DONE WITH FINDING CHILDREN NODES"
+#for item in parent_list:
+ #   print item.name
 print
 print
-
-
-
 
 '''
 #dependcy resolve#
