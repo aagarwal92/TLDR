@@ -6,39 +6,6 @@ from TreeNode import TreeNode
 input = open('popularRedditData.pkl', 'rb') # "rb" for read binary #
 file_data = pickle.load(input) # this will give you the array of subreddit dictionaries back #
 input.close()
-'''
-
-b = TreeNode({
-    "catname" : "b",
-    "subnum" : 10,
-    "subreddits" : ["c"]
-})
-
-d = TreeNode({
-    "catname" : "d",
-    "subnum" : 15,
-    "subreddits" : ["e"]
-})
-
-e = TreeNode({
-    "catname" : "e",
-    "subnum" : 1,
-    "subreddits" : ["a"]
-})
-
-c = TreeNode({
-    "catname" : "c",
-    "subnum" : 5, #5
-    "subreddits" : ["d"]
-})
-
-a = TreeNode({
-    "catname" : "a",
-    "subnum" : 20,
-    "subreddits" : ["b"]
-})
-'''
-#file_data = [a,b,c,d,e]
 
 reddit = TreeNode({
     "catname" : "Reddit",
@@ -65,40 +32,60 @@ for node in nodes:
     for childName in node.suggested_children:
         if childName in dict_names:
             child = dict_names[childName]
-            print "Child %s has been appended to the ditionary" % child.name
+            #print "Child %s has been appended to the ditionary" % child.name
             if child != node:
                 if child.parent is not None and node.subscribers > child.parent.subscribers:
                      child.parent.remove_child(child)
                      node.add_child(child)
-                     print "Child %s has been added/removed" % child.name
+                     #print "Child %s has been added/removed" % child.name
                 if child.parent is None:
                      node.add_child(child)
-'''
-for node in nodes:
-    if node.parent is None:
-        reddit.add_child(node)
-'''
 
+reddit500 = []
+reddit1000 = []
+reddit1500 = []
+reddit2000 = []
+
+
+count = 0
 for node in nodes:
-    if node.parent is None:
-        top_level = node
-        break
+    if count <501:
+        print node
+        reddit500.append(node)
+        count = count +1
+
+    if count >=500 and count<600:
+        print node
+        reddit1000.append(node)
+        count = count + 1
+print "count 1 %d " % count
+
+#for node in reddit500:
+ #   node.find_link(dict_names,[])
+
+count2 = 0
+for node in reddit1000:
+    count2 = count2 + 1
+print count2
     
-json_output = open('REDDITS.json', 'wb')
-a = "var viz_data = " + json.dumps(top_level.return_json()) + ";"
-json_output.write(a)
-json_output.close()
-
-
+#for node in reddit1000:
+ #   node.find_link (dict_names, [])
+    
     
 #for node in nodes:
     #print "NODE NAME IS %s" % node.name
     #node.find_link(dict_names, [])
     
-#
-#for k,v in dict_names.items():
-   # v.testing_1(dict_names)
 
+for node in nodes:
+    if node.parent is None:
+        reddit.add_child(node)
+
+
+json_output = open('REDDITS.json', 'wb')
+a = "var viz_data = " + json.dumps(reddit.return_json()) + ";"
+json_output.write(a)
+json_output.close()
 
 
 
