@@ -55,11 +55,70 @@ function update(source) {
           .text(function(d) { return d.name; });
   
   // Update the nodes…
+  //var node = vis.selectAll("circle.node")
+   //   .data(nodes, function(d) { return d.id || (d.id = ++i); });
+      
+    nodes.forEach(function(d) {
+        
+      if (d.size >= 1000 && d.size <= 5000)
+      {
+      //  console.log(d); 
+  
   var node = vis.selectAll("circle.node")
       .data(nodes, function(d) { return d.id || (d.id = ++i); });
+        
+      node.select("circle.node");
       
-  // Enter any new nodes at the parent's previous position.
-  node.enter().append("svg:circle")
+      node.enter().append("svg:circle")
+      .attr("class", "node2")
+      .attr("cx", function(d) { return source.y0; })
+      .attr("cy", function(d) { return source.x0; })
+      .text(function (d) {return d.name; })
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .on("mouseover", mouseon)
+      .on("mouseout", mouseoff)
+      .on("click", click)
+    .transition()
+      .duration(duration)
+      .attr("cx", function(d) { return d.y; })
+      .attr("cy", function(d) { return d.x; });
+     }
+    
+  if (d.size >= 5001)
+      {
+       // console.log(d); 
+  
+    var node = vis.d("circle.node")
+      .data(nodes, function(d) { return d.id || (d.id = ++i); });
+        
+      node.select("circle.node");
+      
+      node.enter().append("svg:circle")
+      .attr("class", "node3")
+      .attr("cx", function(d) { return source.y0; })
+      .attr("cy", function(d) { return source.x0; })
+      .text(function (d) {return d.name; })
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .on("mouseover", mouseon)
+      .on("mouseout", mouseoff)
+      .on("click", click)
+    .transition()
+      .duration(duration)
+      .attr("cx", function(d) { return d.y; })
+      .attr("cy", function(d) { return d.x; });
+     }
+    
+    
+    });
+    
+      
+/*
+ 
+ if (nodes[i].size >= 1000 && nodes[i].size <= 2000)
+    {
+      node.enter().append("svg:circle")
       .attr("class", "node")
       .attr("cx", function(d) { return source.y0; })
       .attr("cy", function(d) { return source.x0; })
@@ -73,6 +132,47 @@ function update(source) {
       .duration(duration)
       .attr("cx", function(d) { return d.y; })
       .attr("cy", function(d) { return d.x; });
+    }
+    
+    if (nodes[i].size >= 2001 && nodes[i].size <= 5000)
+    {
+      node.enter().append("svg:circle")
+      .attr("class", "node2")
+      .attr("cx", function(d) { return source.y0; })
+      .attr("cy", function(d) { return source.x0; })
+      .text(function (d) {return d.name; })
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .on("mouseover", mouseon)
+      .on("mouseout", mouseoff)
+      .on("click", click)
+    .transition()
+      .duration(duration)
+      .attr("cx", function(d) { return d.y; })
+      .attr("cy", function(d) { return d.x; });
+    }
+    
+    if (nodes[i].size >= 5001)
+    {
+      node.enter().append("svg:circle")
+      .attr("class", "node3")
+      .attr("cx", function(d) { return source.y0; })
+      .attr("cy", function(d) { return source.x0; })
+      .text(function (d) {return d.name; })
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .on("mouseover", mouseon)
+      .on("mouseout", mouseoff)
+      .on("click", click)
+    .transition()
+      .duration(duration)
+      .attr("cx", function(d) { return d.y; })
+      .attr("cy", function(d) { return d.x; });
+    }
+
+*/
+  // Enter any new nodes at the parent's previous position.
+ 
       
   
   node.enter().append("svg:text")

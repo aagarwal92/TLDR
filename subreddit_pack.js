@@ -12,11 +12,8 @@
      .attr("class", "pack")
    .append("svg:g")
      .attr("transform", "translate(2, 2)");
-
-
-setTimeout(function(){
   
-var json = viz_data;
+d3.json("REDDITS.json", function(json) {
    var node = vis.data([json]).selectAll("g.node")
        .data(pack.nodes)
      .enter().append("svg:g")
@@ -32,5 +29,5 @@ var json = viz_data;
    node.filter(function(d) { return !d.children; }).append("svg:text")
        .attr("text-anchor", "middle")
        .attr("dy", ".3em")
-       .text(function(d) { return d.name.substring(0, d.r / 3); });     
-}, 3000)
+       .text(function(d) { return d.name.substring(0, d.r / 3); });
+});

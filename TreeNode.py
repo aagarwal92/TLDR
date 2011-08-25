@@ -62,8 +62,12 @@ class TreeNode:
             #print "goes into sub"
             #print self.name
             #print "--------------------"
-            nodes[node.subscribers] = node
-            node = node.parent            
+           # try:
+                nodes[node.subscribers] = node
+               # print "goes into the try"
+            #except AttributeError:
+              #  print "passed?"
+                node = node.parent
         #print "exits the while  "
         temp = []
         returned_array = sorted(nodes)
@@ -90,6 +94,7 @@ class TreeNode:
     def find_link (self, dict_names, parent_list):
         if self in parent_list:
             #print "if self is in parent_list %s" % self
+            #if self.subscribers is not None:
             self.subs()
             #self.testing_1(dict_names)
             
@@ -116,15 +121,20 @@ class TreeNode:
             
     def return_json(self):
         json_children = []
-        print self.name
+        #print self.name
         for child in self.children:
             json_children.append(child.return_json())
-            
-        return {
+        if len(self.children) == 0:
+            return {
                 "name" : self.name,
-                "size" : self.subscribers,
-                "children" : json_children
-        }
+                "size" : self.subscribers    
+            }
+        else:
+            return {
+                    "name" : self.name,
+                    "size" : self.subscribers,
+                    "children" : json_children
+            }
             
             # write to file#
                 
