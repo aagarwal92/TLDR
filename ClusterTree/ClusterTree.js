@@ -55,9 +55,10 @@ function update(source) {
           .text(function(d) { return d.name; });
   
   // Update the nodes…
-  //var node = vis.selectAll("circle.node")
-   //   .data(nodes, function(d) { return d.id || (d.id = ++i); });
+  var node = vis.selectAll("circle.node")
+      .data(nodes, function(d) { return d.id || (d.id = ++i); });
       
+  /*   Code trying to add circle size changes
     nodes.forEach(function(d) {
         
       if (d.size >= 1000 && d.size <= 5000)
@@ -112,9 +113,9 @@ function update(source) {
     
     
     });
+  */
     
-      
-/*
+/* Another attempt at the same thing
  
  if (nodes[i].size >= 1000 && nodes[i].size <= 2000)
     {
@@ -173,7 +174,21 @@ function update(source) {
 */
   // Enter any new nodes at the parent's previous position.
  
-      
+    node.enter().append("svg:circle")
+      .attr("class", "node")
+      .attr("cx", function(d) { return source.y0; })
+      .attr("cy", function(d) { return source.x0; })
+      .text(function (d) {return d.name; })
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+      .on("mouseover", mouseon)
+      .on("mouseout", mouseoff)
+      .on("click", click)
+    .transition()
+      .duration(duration)
+      .attr("cx", function(d) { return d.y; })
+      .attr("cy", function(d) { return d.x; });
+    
   
   node.enter().append("svg:text")
       .attr("dx", function(d) { return d.children ? -8 : 8; })
