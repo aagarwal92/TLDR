@@ -74,16 +74,80 @@ background:url(images/tt_bottom.gif) top right no-repeat;
 overflow:hidden;
 }
 
+.wireframemenu{
+border: 1px solid #C0C0C0;
+background-color: white;
+border-bottom-width: 0;
+width: 170px;
+position: absolute;
+}
+
+* html .wireframemenu{ /*IE only rule. Original menu width minus all left/right paddings */
+width: 164px;
+}
+
+.wireframemenu ul{
+padding: 0;
+margin: 0;
+list-style-type: none;
+}
+
+.wireframemenu a{
+font: bold 13px Verdana;
+padding: 4px 3px;
+display: block;
+width: 100%; /*Define width for IE6's sake*/
+color: #595959;
+text-decoration: none;
+border-bottom: 1px solid #C0C0C0;
+}
+
+.wireframemenu a:visited{
+color: #595959;
+}
+
+html>body .wireframemenu a{ /*Non IE rule*/
+width: auto;
+}
+
+.wireframemenu a:hover{
+background-color: #F8FBBD;
+color: black;
+}
+
+
     </style>
     <link type="text/css" rel="stylesheet" href="button.css"/>
   </head>
-  <body>
+ <body>
+
+
             <button type="button" onclick="window.location.reload()">Reset</button>
         <button type="button" onclick="back2()">Move up the Tree</button>
 
     <div id="chart"></div>
     <script type="text/javascript" language="javascript" src="Tooltip.js"></script>
     <script type="text/javascript" src="ClusterTree.js"></script>
-    
+    <script type="text/javascript" src="StaticMenu.js"></script>
+
+<div id="staticmenu" class="wireframemenu" style="right: 300px; top: 20px">
+<div id="subredditinfo"></div>
+
+<div id="redditinfo">
+<h2>Reddit</h2>
+<ul>
+  <li>Total Subscribers: 2000000</li>
+</ul>
+</div>
+
+</div>
+
+
+
   </body>
+ 
+ 
+
+
+
 </html>

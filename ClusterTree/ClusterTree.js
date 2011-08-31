@@ -3,7 +3,8 @@ var cluster = null;
 var vis = null;
 var diagonal = null;
 var blah = null;
-var blahParent = null;
+var count = 0;
+var rentList = ""
 var w =0,
     h = 0,
     i = 0,
@@ -14,7 +15,7 @@ d3.json("REDDITS.json", function(json) {
   json.y0 = 0;
 
  jsonData = json;
- console.log(jsonData);
+ //console.log(jsonData);
 
   getHeight(jsonData);
  //update(root = json)
@@ -54,10 +55,11 @@ function update(source) {
           .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
           .text(function(d) { return d.name; });
   
-  // Update the nodes�
+  // Update the nodes…
   var node = vis.selectAll("circle.node")
       .data(nodes, function(d) { return d.id || (d.id = ++i); });
       
+      //d.szie>1000 if statement. d,.class "node med(css class defined in html).
   /*   Code trying to add circle size changes
     nodes.forEach(function(d) {
         
@@ -210,7 +212,7 @@ function update(source) {
       .attr("cy", function(d) { return source.x; })
       .remove();
 
-  // Update the links�
+  // Update the links…
   var link = vis.selectAll("path.link")
       .data(cluster.links(nodes), function(d) { return d.target.id; });
 
@@ -274,10 +276,10 @@ function getHeight(x)
   i = 0;
   duration = 500;
   
-  console.log(x.children.length);
+  //console.log(x.children.length);
   h = (x.children.length*40);
   
-  console.log("height is"+ h);
+  //console.log("height is"+ h);
   
 //  return h;
 
@@ -290,6 +292,10 @@ var temp = null;
 
 function click (d)
 {
+  if (d==undefined)
+  {
+    return;
+  }
   if (d.children == null)
   {
     console.log("Node has no children");
@@ -308,9 +314,55 @@ function click (d)
   root = d;
   temp = root.parent;
   getHeight(d);
-  update(root); 
+  update(root);
+  
+  console.log(d.name);
+  if(d.name == "Reddit"){
+    document.getElementById("subredditinfo").style.display = "none";
+    document.getElementById("redditinfo").style.display = "block";
+  }
+  else
+  {
+    document.getElementById("redditinfo").style.display = "none";
+    document.getElementById("subredditinfo").style.display = "block";
+    showRentList2();
+    var rentList2 = document.getElementById('subredditinfo');
+    rentList2.innerHTML = showRentList2();
+    //rentList2.innerHTML = "Parent1<br/>Parent2<br/>Parent3";
+  }
+  
+  function showRentList()
+  {
+    var rentList = ""
+    var tempRent = d.parent;
+      if (tempRent.name == "Reddit")
+      {
+        rentList = d.name + "</br>" +  " ↓ " + "</br>" + tempRent.name;
+        return rentList;
+      }
+      for (x = 0; x < 20; x++)
+      {
+        
+        rentList = rentList + d.name + "</br>" +  " ↓ " + "</br>" + tempRent.name + "</br>" +  " ↓ " + "</br>";
+        if (tempRent.parent != undefined)
+        {
+          tempRent = tempRent.parent;
+          if (tempRent.name == "Reddit")
+          {
+            rentList = rentList  + tempRent.name;
+            return rentList;
+          }
+        }
+        //return rentList;
+      }
+      return rentList;
+      console.log("goes into rentlist")
+      
+      //return rentList2;
+     // var blah = "L;KFLASDFJKL;ASJDFKL;ASJDFL;AKFJ";
+      //return blah;
+  }
 }
-
 function back2()
 {
   if (blah==null)
@@ -320,12 +372,72 @@ function back2()
     resetNames();
     getHeight(blahParent);
     update(blahParent);
+  if (blahParent.name == "Reddit")
+  {
+    document.getElementById("subredditinfo").style.display = "none";
+    document.getElementById("redditinfo").style.display = "block";
+  }
+  else
+  { 
+    
+        
   if (blahParent.parent != null)
   {
     blahParent = blahParent.parent;
   }
+
+    //showRentList2();
+    document.getElementById("subredditinfo").style.display = "block";
+    document.getElementById("redditinfo").style.display = "none"; 
+    var rentList2 = document.getElementById('subredditinfo');
+    rentList2.innerHTML = showRentList2();
+
+  count ++;
+  console.log(count);
+  }
 }
-  
+
+
+function showRentList2()
+  {
+    var rentList = ""
+    var blah2 = blah;
+    
+    for (i = 0; i < count; i++)
+    {
+      blah2 = blah2.parent;
+    }
+     var tempRent = blah2.parent; 
+
+      if (tempRent.name == "Reddit")
+      {
+        rentList = blah2.name + "</br>" +  " ↓ " + "</br>" + tempRent.name;
+        return rentList;
+      }
+      for (x = 0; x < 20; x++)
+      {
+      // rentList = blah2.name;
+      // blah2 = blah.parent;
+        rentList = rentList + blah2.name + "</br>" +  " ↓ " + "</br>" + tempRent.name + "</br>" +  " ↓ " + "</br>";
+        if (tempRent.parent != undefined)
+        {
+          tempRent = tempRent.parent;
+          if (tempRent.name == "Reddit")
+          {
+            rentList = rentList  + tempRent.name;
+            return rentList;
+          }
+        }
+       // blah2 = blah2.parent;
+        //return rentList;
+      }
+      return rentList;
+  }
+
+
+
+    var rentList = ""
+
 function mouseon(d)
 {
   function kids()
@@ -384,7 +496,13 @@ function mouseon(d)
   //tooltip.show('Testing  123');
   //update(d);
 }
- 
+
+function test()
+{
+  console.log("test");
+  console.log(rentList)
+}
+
 function mouseoff(d)
 {
   tooltip.hide();
@@ -398,4 +516,5 @@ function nodeSize()
 function reset()
 {
   window.location.reload();
+  count == 0;
 }
