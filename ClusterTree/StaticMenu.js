@@ -1,6 +1,6 @@
 //ids of menus to keep static on page (must be absolutely positioned, with left/top attribute added inline inside tag)
 //Separate multiple ids with a comma (ie: ["menu1", "menu2"]
-var staticmenuids=["staticmenu"]
+var staticmenuids=["staticmenu", "staticmenu2"]
 
 var staticmenuoffsetY=[]
 

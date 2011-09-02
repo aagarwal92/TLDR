@@ -316,18 +316,29 @@ function click (d)
   getHeight(d);
   update(root);
   
+  var subsInfo = "";
+  subsInfo = d.name + "</br>" + "Subscriber Count: " + d.size;
+  
+  showRentList2();
   console.log(d.name);
+  count == 0; 
   if(d.name == "Reddit"){
     document.getElementById("subredditinfo").style.display = "none";
+    document.getElementById("subscribers").style.display = "none";
     document.getElementById("redditinfo").style.display = "block";
+    //document.getElementById("subscribers").style.display = "block";
+
   }
   else
   {
     document.getElementById("redditinfo").style.display = "none";
     document.getElementById("subredditinfo").style.display = "block";
+    document.getElementById("subscribers").style.display = "block";
     showRentList2();
     var rentList2 = document.getElementById('subredditinfo');
-    rentList2.innerHTML = showRentList2();
+    rentList2.innerHTML = rentList + "</br>" + " ↓ " + "</br>" + d.name;
+    var subs = document.getElementById('subscribers');
+    subs.innerHTML = subsInfo;
     //rentList2.innerHTML = "Parent1<br/>Parent2<br/>Parent3";
   }
   
@@ -355,8 +366,11 @@ function click (d)
         }
         //return rentList;
       }
+   
       return rentList;
       console.log("goes into rentlist")
+      
+      
       
       //return rentList2;
      // var blah = "L;KFLASDFJKL;ASJDFKL;ASJDFL;AKFJ";
@@ -372,6 +386,9 @@ function back2()
     resetNames();
     getHeight(blahParent);
     update(blahParent);
+   
+
+  
   if (blahParent.name == "Reddit")
   {
     document.getElementById("subredditinfo").style.display = "none";
@@ -381,62 +398,158 @@ function back2()
   { 
     
         
-  if (blahParent.parent != null)
-  {
-    blahParent = blahParent.parent;
-  }
+    if (blahParent.parent != null)
+    {
+      blahParent = blahParent.parent;
+    }
 
     //showRentList2();
     document.getElementById("subredditinfo").style.display = "block";
-    document.getElementById("redditinfo").style.display = "none"; 
+    document.getElementById("subscribers").style.display = "block";
+    document.getElementById("redditinfo").style.display = "none";
+    var subs = document.getElementById('subscribers');
+    subs.innerHTML = showSubs();
     var rentList2 = document.getElementById('subredditinfo');
     rentList2.innerHTML = showRentList2();
 
-  count ++;
+   count ++;
   console.log(count);
+  
   }
 }
 
-
-function showRentList2()
-  {
-    var rentList = ""
-    var blah2 = blah;
+function moveUpParentList(x)
+{
+  var clickedParent = null;
+    //rentList.forEach(function(item) {
+      //clickedParent = item[x];
+    //})
     
+    for (i=0; i<rentList.length; i++)
+    {
+      console.log("GOES IN")
+      clickedParent = rentList[i];
+            console.log("GOES IN2")
+
+      console.log(rentList[i]);
+    }
+    //console.log(clickedParent);
+}
+
+function showSubs()
+{
+  var blah2 = blah;
+  var subsInfo2 = "";
+  
     for (i = 0; i < count; i++)
     {
       blah2 = blah2.parent;
     }
-     var tempRent = blah2.parent; 
+    subsInfo2 = blah2.parent.name + "</br>" + "SUBS Count: " + blah2.parent.size;
+    return subsInfo2;
+    
+}
+/*
+function showRentList3()
+{
+  var rentList = "";
+  var blah2 = blah;
+  var tempRent;
+   
+  for (i = 0; i < count; i++)
+  {
+    blah2 = blah2.parent;
+  }
+  
+  if (blah2.parent.parent.name == "Reddit")
+  {
+    var bolded = blah2.parent.name;
+    bolded = bolded.bold();
+    rentList = blah2.parent.parent.name + "</br>" +  " ↓ " + "</br>" + bolded;
+      return rentList;
+  }
+  
+  tempRent = blah2.parent;
+  for (x = 0; x < 20; x++)
+  {
+    rentList = rentList + tempRent.parent.name + "</br>" +  " ↓ " + "</br>" + blah2.parent.name + "</br>" +  " ↓ " + "</br>";
+    if (tempRent.parent != undefined)
+    {
+       tempRent = blah2.parent.parent;
+        if (tempRent.name == "Reddit")
+        {
+          //var bolded = blah2.parent.name;
+          //bolded = bolded.bold();
+          rentList = tempRent.name + "</br>" +  " ↓ " + "</br>" + rentList;
+          return rentList;
+        }
+    }
+  }
+  return rentList;
+  
+}
 
-      if (tempRent.name == "Reddit")
+*/
+function showRentList2()
+  {
+    //var rentList = ""
+    var blah2 = blah;
+    for (i = 0; i < count; i++)
+    {
+      blah2 = blah2.parent;
+    }
+     var tempRent = blah2; 
+
+   /*   if (tempRent.name == "Reddit")
       {
-        rentList = blah2.name + "</br>" +  " ↓ " + "</br>" + tempRent.name;
+        rentList = tempRent.name + "</br>" +  " ↓ " + "</br>" +  blah.name;
         return rentList;
-      }
+      }*/
+      
+      {
       for (x = 0; x < 20; x++)
       {
-      // rentList = blah2.name;
-      // blah2 = blah.parent;
-        rentList = rentList + blah2.name + "</br>" +  " ↓ " + "</br>" + tempRent.name + "</br>" +  " ↓ " + "</br>";
+        if (x == 0)
+        {
+          rentList = tempRent.parent.name;
+          if (tempRent.parent != undefined)
+        {
+          tempRent = tempRent.parent;
+          if (tempRent.name == "Reddit")
+          {
+           // rentList = tempRent.name + "</br>" +  " ↓ " + "</br>" + rentList;
+      //     var rentList2 = rentList.substring(0, rentList.length-2);
+            return rentList;
+          }
+        }
+        }
+        else
+        {
+          
+      
+        rentList = tempRent.parent.name + "</br>" +  " ↓ " + "</br>" + rentList;// +  tempRent.parent.name; //+ "</br>" +  " ↓ " + "</br>" + blah2.parent.name ;
         if (tempRent.parent != undefined)
         {
           tempRent = tempRent.parent;
           if (tempRent.name == "Reddit")
           {
-            rentList = rentList  + tempRent.name;
+           // rentList = tempRent.name + "</br>" +  " ↓ " + "</br>" + rentList;
+      //     var rentList2 = rentList.substring(0, rentList.length-2);
             return rentList;
           }
         }
        // blah2 = blah2.parent;
         //return rentList;
+        }
       }
+      }
+     // var rentList2 = rentList.substring(0, rentList.length-2);
       return rentList;
   }
 
 
 
-    var rentList = ""
+    //var rentList = ""
 
 function mouseon(d)
 {
